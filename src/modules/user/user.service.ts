@@ -37,7 +37,7 @@ export class UserService {
    * Find user with username
    * @param username
    */
-  async findByUsername(username: String): Promise<User> {
+  async findByUsername(username: string): Promise<User> {
     return await this.userRepository.findOne({ where: { username }, relations: ['roles'] });
   }
 
@@ -47,7 +47,7 @@ export class UserService {
    * @param password password to check
    * @returns {boolean} are the passwords the same?
    */
-  async samePassword(user: User, password: String): Promise<boolean> {
+  async samePassword(user: User, password: string): Promise<boolean> {
     return bcrypt.compareSync(password, user.password);
   }
 }

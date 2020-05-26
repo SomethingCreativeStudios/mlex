@@ -6,8 +6,8 @@ export class Role {
   id: number;
 
   @Column()
-  name: String;
+  name: string;
 
   @Column()
-  description: String;
+  description: string;
 }

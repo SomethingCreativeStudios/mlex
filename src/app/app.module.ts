@@ -5,13 +5,15 @@ import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '../config';
-import { UserModule } from '../user';
+import { UserModule } from '../modules/user';
 import { TypeOrmOptions } from '../database';
+import { TaskModule } from '../modules/tasks';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule,
+    TaskModule,
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmOptions,
     }),

@@ -1,8 +1,11 @@
 import { INestApplication } from '@nestjs/common';
 import { BaseTask } from '../BaseTask';
-import { UserService, User } from '../../user';
+import { UserService, User } from '../../modules/user';
 import { ConfigService } from '../../config/config.service';
-import { Role } from '../../role';
+import { Role } from '../../modules/role';
+import { UpgradeTask } from '../decorators/task.decorator';
+
+
 export class Upgrade1 extends BaseTask {
   private userService: UserService;
 
@@ -13,10 +16,9 @@ export class Upgrade1 extends BaseTask {
     this.userService = app.get(UserService);
     this.configService = app.get(ConfigService);
   }
-  async executeTask(): Promise<void> {
-    console.log('Starting upgrade process 1...');
-    console.log(' - Upgrade Process: Load Default Users');
 
+  @UpgradeTask('User Set Up', 'task to create base user and base admin')
+  async executeTask(): Promise<void> {
     const player = await this.userService.findByUsername('User');
     const admin = await this.userService.findByUsername('Admin');
 
@@ -39,7 +41,7 @@ export class Upgrade1 extends BaseTask {
    * @param password
    * @param role
    */
-  private async createUser(userName: String, password: String, roleName: String) {
+  private async createUser(userName: string, password: string, roleName: string) {
     const newUser = new User();
     const newRole = new Role();
 

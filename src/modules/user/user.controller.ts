@@ -1,10 +1,10 @@
 import { Post, Get, Body, Controller, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles, RoleName } from '../decorators/RolesDecorator';
+import { Roles, RoleName } from '../../decorators/RolesDecorator';
 import { AuthService, AccessToken } from '../auth';
 import { RoleService } from '../role';
-import { RolesGuard } from '../guards';
+import { RolesGuard } from '../../guards';
 import { CreateToken } from './request';
 import { User } from './models';
 import { ApiTags, ApiHideProperty, ApiBody, ApiResponse, ApiBodyOptions, ApiExcludeEndpoint } from '@nestjs/swagger';

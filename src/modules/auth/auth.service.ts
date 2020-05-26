@@ -2,7 +2,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { JwtPayload } from './models/JwtPayload';
 import { AccessToken } from './interfaces/interfaces';
-import { RoleName } from '../decorators/RolesDecorator';
+import { RoleName } from '../../decorators/RolesDecorator';
 
 /**
  @typedef accessToken

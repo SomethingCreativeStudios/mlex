@@ -7,10 +7,10 @@ export class User {
   id: number;
 
   @Column()
-  username: String;
+  username: string;
 
   @Column()
-  password: String;
+  password: string;
 
   @ManyToMany(type => Role, { cascade: true })
   @JoinTable()

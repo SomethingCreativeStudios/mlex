@@ -74,6 +74,6 @@ export class ConfigService {
 }
 
 interface DefaultPasswords {
-  admin: String;
-  user: String;
+  admin: string;
+  user: string;
 }

@@ -1,10 +1,11 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class InitialDatabase1590381306982 implements MigrationInterface {
-    name = 'InitialDatabase1590381306982'
+export class InitialDatabase1590454798267 implements MigrationInterface {
+    name = 'InitialDatabase1590454798267'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "role" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "description" character varying NOT NULL, CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "task" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "description" character varying NOT NULL, CONSTRAINT "PK_fb213f79ee45060ba925ecd576e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "user" ("id" SERIAL NOT NULL, "username" character varying NOT NULL, "password" character varying NOT NULL, CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "user_roles_role" ("userId" integer NOT NULL, "roleId" integer NOT NULL, CONSTRAINT "PK_b47cd6c84ee205ac5a713718292" PRIMARY KEY ("userId", "roleId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_5f9286e6c25594c6b88c108db7" ON "user_roles_role" ("userId") `);
@@ -20,6 +21,7 @@ export class InitialDatabase1590381306982 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "IDX_5f9286e6c25594c6b88c108db7"`);
         await queryRunner.query(`DROP TABLE "user_roles_role"`);
         await queryRunner.query(`DROP TABLE "user"`);
+        await queryRunner.query(`DROP TABLE "task"`);
         await queryRunner.query(`DROP TABLE "role"`);
     }
 
