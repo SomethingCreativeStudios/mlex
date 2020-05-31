@@ -1,3 +1,5 @@
+import { NovelModule } from './../modules/novel/novel.module';
+import { FolderModule } from './../modules/folder/folder.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
@@ -11,6 +13,8 @@ import { TaskModule } from '../modules/tasks';
 
 @Module({
   imports: [
+    NovelModule,
+    FolderModule,
     UserModule,
     ConfigModule,
     TaskModule,

@@ -3,7 +3,6 @@ import { AppModule } from './app/app.module';
 import * as tasks from './startup/tasks';
 import { TaskLoader } from './startup/TaskLoder';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
 require('dotenv').config();
 
 declare const module: any;

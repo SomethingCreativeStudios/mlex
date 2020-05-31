@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache, max-age=0, must-revalidate, no-store" />
+    <meta name="description" content="A free light novel encyclopedia built collaboratively by users." />
+    <meta name="keywords" content="Spice and Wolf, light novel, raito noberu, ranobe">
+    <meta name="theme-color" content="#777777">
+    <title>Spice and Wolf - LNDB.info - The Light Novel Database</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png" />
+    <link rel="icon" sizes="192x192" href="/android-icon.png" />
+    <link rel="stylesheet"
+        href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.min.css" />
+    <link href="/style/bright_no_images.css?1590629372" rel="stylesheet" type="text/css" />
+    <link href="/style/highslide/highslide.css" rel="stylesheet" type="text/css" />
+    <link href="/style/multiple-select/multiple-select.css" rel="stylesheet" type="text/css" />
+    <script type="text/JavaScript" src="/javascript/general.js?1590629372"></script>
+    <script type="text/JavaScript" src="/style/Moment.js/moment-2.8.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script type="text/JavaScript" src="/style/jquery/jquery_cookie.js"></script>
+    <script type="text/JavaScript" src="/style/AjaxFileUploader/ajaxfileupload.js"></script>
+    <script type="text/JavaScript" src="/style/TextAreaCounter/jquery.textareaCounter.plugin.js"></script>
+    <script type="text/javascript" src="/style/highslide/highslide.packed.js"></script>
+    <script type="text/javascript" src="/style/multiple-select/jquery.multiple.select.js"></script>
+
+    <style type="text/css">
+        .ui-autocomplete-input {
+            width: 208px;
+            height: 25px;
+            padding: 0.2em;
+            background: #EEE;
+            color: #000;
+            border: 1px solid #999999;
+        }
+
+        .ui-autocomplete-loading {
+            background: black url('/style/ajax-arrows-loader-bright.gif') right center no-repeat;
+        }
+
+        input.ui-button {
+            padding: 3px;
+        }
+
+        .ui-spinner {
+            background: #EEE;
+            color: #000;
+        }
+
+        .ui-button-text {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* For visible Scrolling */
+        .ui-autocomplete {
+            max-height: 200px;
+            max-width: 350px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+        }
+
+        .ui-menu {
+            padding: 2px;
+        }
+
+        .ui-autocomplete .ui-state-focus {
+            border-radius: 4px;
+        }
+
+        /* IE 6 doesn't support max-height
+    * we use height instead, but this forces the menu to always be this tall
+    */
+        * html .ui-autocomplete {
+            height: 100px;
+        }
+
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding-top: .1em;
+            padding-bottom: .1em;
+            line-height: 1.5;
+            border-bottom: 1px solid black;
+            clear: both;
+        }
+
+        .ui-autocomplete-multiselect.ui-state-default {
+            display: block;
+            background: #EEEEEE;
+            border: 1px solid #999999;
+            padding: 3px 0 0 3px;
+            overflow: hidden;
+            cursor: text;
+        }
+
+        .ui-autocomplete-multiselect .ui-autocomplete-multiselect-item .ui-icon {
+            float: right;
+            cursor: pointer;
+        }
+
+        .ui-autocomplete-multiselect .ui-autocomplete-multiselect-item {
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 1px 3px;
+            margin-right: 2px;
+            margin-bottom: 3px;
+            color: #333;
+            background-color: #f6f6f6;
+        }
+
+        .ui-autocomplete-multiselect input {
+            display: inline-block;
+            border: none;
+            outline: none;
+            height: auto;
+            margin: 2px 2px 5px 2px;
+            overflow: visible;
+            text-align: left;
+            width: 245px;
+        }
+
+        .ui-autocomplete-multiselect.ui-state-active {
+            outline: none;
+        }
+
+        .ui-combobox {
+            position: relative;
+            display: inline-block;
+        }
+
+        .ui-combobox-input {
+            padding: 2px;
+            height: 26px;
+        }
+
+        .ui-combobox-toggle {
+            margin-left: -1px;
+            height: 30px;
+            vertical-align: top;
+        }
+
+        .ui-buttonset .ui-button {
+            margin-right: -0.35em;
+        }
+
+        .highslide-active-anchor img {
+            visibility: visible;
+        }
+    </style>
+
+    <script type="text/JavaScript">
+    hs.graphicsDir = '/style/highslide/graphics/';
+    hs.outlineType = 'rounded-white';
+    hs.showCredits = false;
+
+    function checkSearch()
+    {
+        var trimmedSearchTerm = Trim(document.getElementById('search').value);
+        trimmedSearchTerm = trimmedSearchTerm.replace(/ +(?= )/g,'');
+
+        document.getElementById('search').value = trimmedSearchTerm;
+
+        if(trimmedSearchTerm == "")
+        {
+            return false;
+        }
+
+        return true; // when everything is valid return true so the page will submit
+    }
+
+    var ac = $.ui.autocomplete.prototype;
+    var _super = {
+        _create: ac._create,
+        _destroy: ac._destroy,
+        _resizeMenu: ac._resizeMenu,
+        _suggest: ac._suggest,
+        search: ac.search,
+        open: ac.open,
+        close: ac.close
+    };
+
+    $.widget("custom.multiselect", $.ui.autocomplete, {
+        options: {
+            multiselect: false
+        },
+        _create: function(){
+            var self = this,
+                o = self.options;
+            _super._create.apply(self, arguments);
+
+            if (o.multiselect) {
+                self.selectedItems = {};
+                self.multiselect = $("<div></div>")
+                    .addClass("ui-autocomplete-multiselect ui-state-default ui-widget")
+                    .css("width", self.element.width() - 3)
+                    .insertBefore(self.element)
+                    .append(self.element)
+                    .bind("click.autocomplete", function(){
+                        self.element.focus();
+                    });
+
+                var fontSize = parseInt(self.element.css("fontSize"), 10);
+                function autoSize(e){
+                    // Hackish autosizing
+                    //var $this = $(this);
+                    //$this.width(1).width(this.scrollWidth+fontSize-1);
+                    $(this).prop('size', $(this).val().length + 2);
+                }
+
+                var kc = $.ui.keyCode;
+                self.element.bind({
+                    "keydown.autocomplete": function(e){
+                        /*
+                        if ((this.value === "") && (e.keyCode == kc.BACKSPACE)) {
+                            var prev = self.element.prev();
+                            delete self.selectedItems[prev.text()];
+                            prev.remove();
+                        }
+                        */
+                        if (e.keyCode == kc.ENTER) {
+                            if (this.value) {
+                                $("<div></div>")
+                                    .addClass("ui-autocomplete-multiselect-item")
+                                    .text(this.value)
+                                    .append(
+                                        $("<span></span>")
+                                            .addClass("ui-icon ui-icon-close")
+                                            .hover(function(){
+                                                var item = $(this).parent();
+                                                item.toggleClass("ui-state-active");
+                                            })
+                                            .click(function(){
+                                                var item = $(this).parent();
+                                                delete self.selectedItems[item.text()];
+                                                item.remove();
+                                            })
+                                    )
+                                    .insertBefore(self.element);
+
+                                self._value("");
+                                self.close();
+                            }
+                        }
+                    },
+                    "focus.autocomplete": function(){
+                        if(!self.multiselect.hasClass("ui-state-active")){
+                            self.multiselect.addClass("ui-state-active");
+                        }
+                    },
+                    "blur.autocomplete": function(){
+                        if(self.multiselect.hasClass("ui-state-active")){
+                            self.multiselect.removeClass("ui-state-active");
+                        }
+                    },
+                    "keypress.autocomplete change.autocomplete focus.autocomplete blur.autocomplete": autoSize
+                }).trigger("change");
+
+                o.select = o.select || function(e, ui) {
+                    $("<div></div>")
+                        .addClass("ui-autocomplete-multiselect-item")
+                        .text(ui.item.label)
+                        .append(
+                            $("<span></span>")
+                                .addClass("ui-icon ui-icon-close")
+                                .hover(function(){
+                                    var item = $(this).parent();
+                                    item.toggleClass("ui-state-active");
+                                })
+                                .click(function(){
+                                    var item = $(this).parent();
+                                    delete self.selectedItems[item.text()];
+                                    item.remove();
+                                })
+                        )
+                        .insertBefore(self.element);
+
+                    self.selectedItems[ui.item.label] = ui.item;
+                    self._value("");
+                    return false;
+                }
+            }
+            return this;
+        },
+        _resizeMenu: function(){
+            if (this.options.multiselect) {
+                var ul = this.menu.element;
+                ul.outerWidth( Math.max(
+                    ul.width( "" ).outerWidth(),
+                    this.multiselect.outerWidth()
+                ) );
+            } else {
+                _super._resizeMenu.apply(this);
+            }
+        },
+        _suggest: function( items ) {
+            var elm = this.element;
+            // Override this.element with our multiselect for proper positioning
+            this.element = this.options.multiselect ? this.multiselect : this.element;
+            _super._suggest.apply(this, [items]);
+            this.element = elm;
+        },
+        search: function( value, event ) {
+            value = value != null ? value : this._value();
+            if (this.options.triggerChar) {
+                if (value.substring(0,1) != this.options.triggerChar) {
+                    return;
+                } else {
+                    value = value.substring(1);
+                }
+            }
+            return _super.search.apply(this, [value, event]);
+        },
+        // Borrowed from 1.9
+        _value: function( value ) {
+            return this.valueMethod.apply( this.element, arguments );
+        },
+        // Borrowed from 1.9
+        valueMethod: function() {
+            var result = this[this.is( "input" ) ? "val" : "text"].apply(this, arguments);
+            this.trigger("change");
+            return result;
+        }
+    });
+
+    $.widget( "custom.catcomplete", $.ui.autocomplete, {
+        _create: function() {
+            this._super();
+            this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+        },
+        _renderMenu: function( ul, items ) {
+            var self = this,
+                currentCategory = "";
+            $.each( items, function( index, item ) {
+                if ( item.category != currentCategory ) {
+                    ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                    currentCategory = item.category;
+                }
+                li = self._renderItemData( ul, item );
+                if ( item.category ) {
+                    li.attr( "aria-label", item.category + " : " + item.label );
+                }
+            });
+        }
+    });
+
+    (function( $ ) {
+        $.widget( "ui.combobox", {
+            _create: function() {
+                var input, a,
+                    that = this,
+                    wasOpen = false,
+                    select = this.element.hide(),
+                    selected = select.children( ":selected" ),
+                    value = selected.val() ? selected.text() : "",
+                    wrapper = this.wrapper = $( "<span>" )
+                        .addClass( "ui-combobox" )
+                        .insertAfter( select );
+
+                function removeIfInvalid( element ) {
+                    var value = $( element ).val(),
+                        matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
+                        valid = false;
+                    select.children( "option" ).each(function() {
+                        if ( $( this ).text().match( matcher ) ) {
+                            this.selected = valid = true;
+                            return false;
+                        }
+                    });
+
+                    if (valid && value == "") {
+                        select.trigger("change");
+                        return;
+                    }
+
+                    if ( !valid ) {
+                        // remove invalid value, as it didn't match anything
+                        $( element )
+                            .val( "" )
+                            .prop( "title", value + " didn't match any item" );
+                        select.val( "" );
+                        setTimeout(function() {
+                            input.prop( "title", "" );
+                        }, 2500 );
+                        input.data( "ui-autocomplete" ).term = "";
+                    }
+                }
+
+                input = this.input = $( "<input>" )
+                    .appendTo( wrapper )
+                    .val( value )
+                    .prop( "title", "" )
+                    .addClass( "ui-state-default ui-combobox-input" )
+                    .autocomplete({
+                        delay: 0,
+                        minLength: 0,
+                        position: { collision: "fit flip" },
+                        source: function( request, response ) {
+                            var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+                            response( select.children( "option" ).map(function() {
+                                var text = $( this ).text();
+                                if ( this.value && ( !request.term || matcher.test(text) ) )
+                                    return {
+                                        label: text.replace(
+                                            new RegExp(
+                                                "(?![^&;]+;)(?!<[^<>]*)(" +
+                                                    $.ui.autocomplete.escapeRegex(request.term) +
+                                                    ")(?![^<>]*>)(?![^&;]+;)", "gi"
+                                            ), "<strong>$1</strong>" ),
+                                        value: text,
+                                        option: this
+                                    };
+                            }) );
+                        },
+                        select: function( event, ui ) {
+                            ui.item.option.selected = true;
+                            that._trigger( "selected", event, {
+                                item: ui.item.option
+                            });
+                            select.trigger("change");
+                        },
+                        change: function( event, ui ) {
+                            if ( !ui.item ) {
+                                removeIfInvalid( this );
+                            }
+                        },
+                        close: function( event, ui ) {
+                            if ( !ui.item ) {
+                                removeIfInvalid( this );
+                            }
+                        }
+                    })
+                    .addClass( "ui-widget ui-widget-content ui-corner-left" );
+
+                input.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+                    var listItem;
+                    if (item.label == "<strong></strong>") {
+                        listItem = $("<li></li>")
+                            .data("item.autocomplete", item)
+                            .append("<a><br></a>")
+                            .appendTo(ul);
+                    } else {
+                        listItem = $("<li></li>")
+                            .data("item.autocomplete", item)
+                            .append("<a>" + item.label + "</a>")
+                            .appendTo(ul);
+                    }
+                    return listItem;
+                };
+
+                select.change(function(){
+                    selected = select.children( ":selected" );
+                    input.val(selected.text());
+                });
+
+                a = this.a = $( "<a>" )
+                    .prop( "tabIndex", -1 )
+                    .prop( "title", "Show All Items" )
+                    .appendTo( wrapper )
+                    .button({
+                        icons: {
+                            primary: "ui-icon-triangle-1-s"
+                        },
+                        text: false
+                    })
+                    .removeClass( "ui-corner-all" )
+                    .addClass( "ui-corner-right ui-combobox-toggle" )
+                    .mousedown(function() {
+                        wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+                    })
+                    .click(function() {
+                        input.focus();
+
+                        // close if already visible
+                        if ( wasOpen ) {
+                            return;
+                        }
+
+                        // pass empty string as value to search for, displaying all results
+                        input.autocomplete( "search", "" );
+                    });
+            },
+
+            refresh: function() {
+                selected = this.element.children( ":selected" );
+                this.input.val(selected.text());
+            },
+
+            _destroy: function() {
+                this.input.remove();
+                this.wrapper.remove();
+                this.element.show();
+            },
+
+            disable: function() {
+                this.input.prop("disabled",true);
+                this.input.autocomplete("disable");
+                this.input.addClass("ui-state-disabled");
+                this.input.addClass("disable-text-selection");
+                this.a.button("disable");
+            },
+
+            enable: function() {
+                this.input.prop("disabled",false);
+                this.input.autocomplete("enable");
+                this.input.removeClass("ui-state-disabled");
+                this.input.removeClass("disable-text-selection");
+                this.a.button("enable");
+            }
+        });
+    })( jQuery );
+
+    $(function() {
+        $( "input:submit", ".searchbutton" ).button();
+        $( "input:submit", ".loginbutton" ).button();
+        $( "input:submit", ".registerbutton" ).button();
+        $( "input:submit", ".sendbutton" ).button();
+        $( "input:submit", ".forgotpassbutton" ).button();
+        $( "input:submit", ".resetpassbutton" ).button();
+        $( "input:submit", ".changeemailbutton" ).button();
+        $( "input:submit", ".changepassbutton" ).button();
+        $( "input:submit", ".unregisterbutton" ).button();
+        $( "input:submit", ".saveaccount" ).button();
+        $( "input:submit", ".addpersonbutton" ).button();
+        $( "input:submit", ".addlightnovelbutton" ).button();
+
+        $( "#country" ).combobox();
+        $( "#person_gender" ).combobox();
+        $( "#person_occupation" ).combobox();
+        $( "#person_blood_type" ).combobox();
+        $( ".opt_related_relation" ).combobox();
+
+        $( "#person_birth_date" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: new Date(1900, 0, 1),
+            maxDate: '-6Y',
+            yearRange: '1900:-6',
+            dateFormat: 'dd/mm/yy'
+        });
+
+        $(document).on('focus', '.opt_publication_start', function() {
+            $(this).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1975, 0, 1),
+                maxDate: '+3M',
+                yearRange: '1975:+1',
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+
+        $(document).on('focus', '.opt_serialization_start', function() {
+            $(this).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1975, 0, 1),
+                maxDate: '+3M',
+                yearRange: '1975:+1',
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+
+        $(document).on('focus', '.opt_publication_end', function() {
+            $(this).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1975, 0, 1),
+                maxDate: '+3M',
+                yearRange: '1975:+1',
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+
+        $(document).on('focus', '.opt_serialization_end', function() {
+            $(this).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1975, 0, 1),
+                maxDate: '+3M',
+                yearRange: '1975:+1',
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+
+        $(document).on('focus', '.cover_release_date', function() {
+            $(this).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                minDate: new Date(1975, 0, 1),
+                maxDate: '+3M',
+                yearRange: '1975:+1',
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+
+        $( "#search" ).catcomplete({
+            delay: 500,
+            source: "/search/all",
+            minLength: 3,
+            select: function(event, ui) {
+                var term = ui.item.label;
+
+                if(ui.item.category == 'People')
+                {
+                    window.location.href = '/person/' + term.replace(/ /g, '_');
+                }
+
+                if(ui.item.category == 'Light Novels')
+                {
+                    if(term.indexOf('\/') != -1)
+                    {
+                        term = term.replace(/\//g, ' ');
+                        term = Trim(term);
+                        term = term.replace(/ {2,}/g, ' ');
+                    }
+
+                    if(term.indexOf('?') != -1)
+                    {
+                        term = term.replace(/\?/g, ' ');
+                        term = Trim(term);
+                        term = term.replace(/ {2,}/g, ' ');
+                    }
+
+                    if(term.indexOf('=') != -1)
+                    {
+                        term = term.replace(/=/g, ' ');
+                        term = Trim(term);
+                        term = term.replace(/ {2,}/g, ' ');
+                    }
+
+                    if(term.indexOf('%') != -1)
+                    {
+                        term = term.replace(/%/g, ' ');
+                        term = Trim(term);
+                        term = term.replace(/ {2,}/g, ' ');
+                    }
+
+                    if(term.indexOf("'") != -1)
+                    {
+                        term = term.replace(/'/g, '');
+                        term = Trim(term);
+                        term = term.replace(/ {2,}/g, ' ');
+                    }
+
+                    term = transliterate_chars(term);
+
+                    window.location.href = '/light_novel/' + term.replace(/ /g, '_');
+                }
+
+                //return false;
+            }
+        });
+
+        $(document).on('click', '.opt_publication_publishers', function(event) {
+            $(this).autocomplete({
+                source: "/search/publisher",
+                minLength: 2
+            });
+        });
+
+        $(document).on('click', '.opt_serialization_publishers', function(event) {
+            $(this).autocomplete({
+                source: "/search/publisher",
+                minLength: 2
+            });
+        });
+
+        $(document).on('click', '.opt_publication_label', function(event) {
+            $(this).autocomplete({
+                source: "/search/label",
+                minLength: 2
+            });
+        });
+
+        $(document).on('click', '.opt_serialization_magazine', function(event) {
+            $(this).autocomplete({
+                source: "/search/magazine",
+                minLength: 2
+            });
+        });
+
+        $(document).on('click', '.opt_related_titles', function(event) {
+            $(this).autocomplete({
+                source: "/search/lightnovel",
+                minLength: 2
+            });
+        });
+    });
+
+    // Google Analytics
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37360375-1', 'auto');
+    ga('send', 'pageview');
+</script>
+</head>
+
+<body id="bodytag">
+    <div class="container">
+
+        <div class="header">
+            <a href="/"><img src="/style/lndb.png" alt="LNDB.info - The Light Novel Database" /></a>
+            <div class="fancy-line"></div>
+        </div>
+        <div class="left">
+
+            <div class="search">
+                <div class="main-menu">
+                    &nbsp;Search
+                </div>
+                <div class="sub-menu">
+
+                    <form method="get" id="searchform" action="/search" onSubmit="return checkSearch()">
+                        <div>
+                            <input type="text" value="" name="text" id="search" />
+                        </div>
+                        <div class="searchbutton">
+                            <input type="submit" id="searchsubmit" value="Search" />
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="navigation">
+                <div class="main-menu">&nbsp;Navigation</div>
+                <div class="sub-menu">
+                    <ul class="navigation-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="http://forums.lndb.info">Forums</a></li>
+                        <li><a href="/releases">Releases</a></li>
+                        <li><a href="/author">Authors</a></li>
+                        <li><a href="/illustrator">Illustrators</a></li>
+                        <li><a href="/light_novel">Light Novels</a></li>
+                        <li><a href="/light_novel_label">Light Novel Labels</a></li>
+                        <li><a href="/light_novel_magazine">Light Novel Magazines</a></li>
+                        <li><a href="/publisher">Publishers</a></li>
+                        <li><a href="/random_page">Random Page</a></li>
+                        <li><a href="/recent_changes">Recent Changes</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="external-websites">
+                <div class="main-menu">
+                    &nbsp;Associated Websites
+                </div>
+                <div class="sub-menu">
+                    <ul class="associated-links">
+                        <li><a href="http://comipedia.com" target="_blank">ComiPedia</a></li>
+                        <li><a href="http://lightnovel.org" target="_blank">LightNovel.org</a></li>
+                        <li><a href="http://tsukikan.com" target="_blank">Tsuki-kan</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="login">
+                <div class="main-menu">
+                    &nbsp;User Login
+                </div>
+                <div class="sub-menu">
+
+
+                    <ul class="account-links">
+                        <li><a href="/auth/login">Log in</a></li>
+                        <li><a href='/auth/register'>Register</a></li>
+                    </ul>
+
+
+                </div>
+            </div>
+
+        </div>
+        <div class="main-body">
+
+            <script type="text/JavaScript">
+        $(function() {
+            // Tabs
+            $('#tabs').tabs({
+                beforeActivate: function( event, ui ) {
+                    $(ui.oldPanel).empty();
+                }
+            });
+
+            $('#tabs').css('display', '');
+
+            $('#tabs ul li a').click(function () {
+                if($(this).prop('id') == 'View' && window.history && window.history.pushState)
+                {
+                    history.pushState("", document.title, window.location.pathname);
+                }
+                else
+                {
+                    location.hash = '#' + $(this).prop('id');
+                }
+            });
+
+            var j_last_known_hash = location.hash;
+            window.setInterval(function() {
+                if(j_last_known_hash != location.hash) {
+                    var tabIndex = 0;
+
+                    if(document.location.hash != '')
+                    {
+                        var tabId = document.location.hash.substr(1, document.location.hash.length);
+                        tabIndex = getIndexForId('tabs', tabId);
+                    }
+
+                    $('#tabs').tabs('option', 'active', tabIndex);
+                    $("#tabs").find("li.ui-state-focus").removeClass('ui-state-focus');
+                    j_last_known_hash = location.hash;
+                }
+            }, 500);
+
+            if(document.location.hash != '')
+            {
+                var tabId = document.location.hash.substr(1, document.location.hash.length);
+                var tabIndex = getIndexForId('tabs', tabId);
+                $('#tabs').tabs('option', 'active', tabIndex);
+            }
+        });
+
+        function getIndexForId(tabsDivId, searchedId)
+        {
+            var index = -1;
+            var i = 0, els = $("#" + tabsDivId).find("a");
+            var l = els.length, e;
+
+            while(i < l && index == -1)
+            {
+                e = els[i];
+                var tabName = $(e).html();
+                if (searchedId == tabName)
+                {
+                    index = i;
+                }
+                i++;
+            };
+
+            return index;
+        }
+    </script>
+
+            <!-- Tabs -->
+            <div id="tabs" style="display: none;">
+                <ul>
+                    <li><a href="/light_novel/view/Spice_and_Wolf" id="View">View</a></li>
+                    <li><a href="/light_novel/history/Spice_and_Wolf" id="History">History</a></li>
+                    <li><a href="/light_novel/comments/Spice_and_Wolf" id="Comments">Comments</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <script type="text/JavaScript">
+    if(document.getElementById('login'))
+    {
+        setTimeout(function() { document.getElementById('login').focus(); }, 500);
+    }
+    else if(document.getElementById('username'))
+    {
+        setTimeout(function() { document.getElementById('username').focus(); }, 500);
+    }
+    else if(document.getElementById('password'))
+    {
+        setTimeout(function() { document.getElementById('password').focus(); }, 500);
+    }
+    else if(document.getElementById('old_password'))
+    {
+        setTimeout(function() { document.getElementById('old_password').focus(); }, 500);
+    }
+    else if(document.getElementById('email'))
+    {
+        setTimeout(function() { document.getElementById('email').focus(); }, 500);
+    }
+    else if(document.getElementById('full_person_name'))
+    {
+        setTimeout(function() { document.getElementById('full_person_name').focus(); }, 500);
+    }
+    else if(document.getElementById('lightnovel_title'))
+    {
+        setTimeout(function() { document.getElementById('lightnovel_title').focus(); }, 500);
+    }
+    else if(document.getElementById('country'))
+    {
+        setTimeout(function() { document.getElementById('country').focus(); }, 500);
+    }
+    else
+    {
+        setTimeout(function() { document.getElementById('search').focus(); }, 500);
+    }
+</script>
+
+    </div>
+</body>
+
+</html>
