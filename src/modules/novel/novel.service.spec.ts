@@ -17,15 +17,15 @@ describe('Novel service', () => {
     await service.setUp();
   });
 
-  describe('Novel API', () => {
-    it('Search For Novel - Many Results', async () => {
+  describe('Search Results', () => {
+    it('Many Results', async () => {
       const result = await service.searchNovel('Spice');
 
       expect(result).not.toBeNull();
       expect(result.length).toEqual(3);
     });
 
-    it('Search For Novel - One Result', async () => {
+    it('One Result', async () => {
       const result = await service.searchNovel('Spice and wolf');
 
       expect(result).not.toBeNull();
@@ -33,14 +33,16 @@ describe('Novel service', () => {
       expect(result[0].url).toEqual('http://lndb.info/light_novel/Spice_and_Wolf');
     });
 
-    it('Search For Novel - No Result', async () => {
+    it('No Result', async () => {
       const result = await service.searchNovel('this should have no results');
 
       expect(result).not.toBeNull();
       expect(result.length).toEqual(0);
     });
+  });
 
-    it('Get Novel - Normal', async () => {
+  describe('Get Novel', () => {
+    it('Standard', async () => {
       const result = await service.getNovel('http://lndb.info/light_novel/Spice_and_Wolf');
 
       expect(result).not.toBeNull();

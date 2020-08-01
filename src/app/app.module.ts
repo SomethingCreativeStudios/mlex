@@ -1,3 +1,5 @@
+import { NameFormatterModule } from './../modules/name-formatter/name-formatter.module';
+import { NameFormatterService } from './../modules/name-formatter/name-formatter.service';
 import { NovelModule } from './../modules/novel/novel.module';
 import { FolderModule } from './../modules/folder/folder.module';
 import { Module } from '@nestjs/common';
@@ -13,6 +15,7 @@ import { TaskModule } from '../modules/tasks';
 
 @Module({
   imports: [
+    NameFormatterModule,
     NovelModule,
     FolderModule,
     UserModule,
@@ -23,8 +26,8 @@ import { TaskModule } from '../modules/tasks';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [NameFormatterService, AppService],
 })
 export class AppModule {
-  constructor(private readonly connection: Connection) { }
+  constructor(private readonly connection: Connection) {}
 }
